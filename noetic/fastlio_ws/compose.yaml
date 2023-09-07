@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  fastlio:
+    container_name: fastlio
+    env_file: .env
+    build:
+      context: ../docker_things
+      dockerfile: Dockerfile
+      args:
+        - USERNAME
+        - UID
+        - GID
+    image: lawskiy/ros:noetic
+    user: "${UID}:${GID}"
+    hostname: ${HOSTNAME}-docker
+    volumes:
+      - ./:/home/${USERNAME}/workspace
+      - ../docker_things/vscode_data:/home/${USERNAME}/.vscode-server
+      - ${SSHDIR}:/home/${USERNAME}/.ssh
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/dri:/dev/dri
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/snd:/dev/snd
+    runtime: nvidia
+    environment:
+      - ROS_DOMAIN_ID=3
+      - DISPLAY=:1 # 默认显示到主屏幕上
+      - NVIDIA_VISIBLE_DEVICES=all
+    network_mode: "host"
+    command: tail -f /dev/null # we need this to prevent container exit
