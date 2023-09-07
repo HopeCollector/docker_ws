@@ -14,13 +14,21 @@ RUN groupadd --gid ${GID} ${USERNAME} \
 
 RUN apt-get install -y \
   python3-pip \
-  git
+  git \
+  wget \
+  curl
 RUN pip install jupyterlab
 
 USER ${USERNAME}
 
 COPY --chown=${USERNAME}:${USERNAME} bashrc /home/${USERNAME}/.bashrc
 RUN mkdir /home/${USERNAME}/workspace
+RUN sudo sh \
+  -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
+  > /etc/apt/sources.list.d/ros-latest.list' \
+  && wget http://packages.ros.org/ros.key -O - | sudo apt-key add - \
+  && sudo apt update \
+  && sudo apt install -y python3-catkin-tools
 WORKDIR /home/${USERNAME}/workspace
 ENV SHELL=/usr/bin/bash
 CMD ["/bin/bash"]
