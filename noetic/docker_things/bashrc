@@ -118,3 +118,5 @@ fi
 
 export all_proxy=172.17.0.1:7890
 export PATH=/home/lawskiy/.local/bin:$PATH
+export ROS_HOSTNAME=localhost
+export ROS_MASTER_URI=http://localhost:11311

@@ -14,6 +14,8 @@ RUN groupadd --gid ${GID} ${USERNAME} \
 
 RUN apt-get install -y \
   python3-pip \
+  # 需要安装一个 ping 来保证 roslaunch 的正常运行
+  iputils-ping \
   git \
   wget \
   curl
