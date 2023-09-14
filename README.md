@@ -13,7 +13,7 @@ echo "USERNAME=$USER
 UID=$(id -u)
 GID=$(id -g)
 HOSTNAME=$HOSTNAME
-SSHDIR=$(readlink -f ~/.ssh)" > docker_things/.env
+SSHDIR=$(readlink -f ~/.ssh)" > <path to workspace>/.env
 ```
 
 3. cd to any `*_ws` and run command blow to create a container.
