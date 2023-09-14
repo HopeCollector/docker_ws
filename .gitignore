@@ -2,5 +2,6 @@
 **/build
 **/install
 **/log
+**/res
 # docker_things/vscode_data/**
 *data*
