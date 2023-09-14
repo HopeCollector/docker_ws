@@ -14,15 +14,15 @@
       }
     },
     {
-      "label": "rviz",
+      "label": "foxglove",
       "type": "shell",
-      "command": "source /opt/ros/humble/setup.bash && rviz2 -d install/roaf3d/share/roaf3d/launch/rviz.rviz",
+      "command": "source /opt/ros/humble/setup.bash && ros2 launch foxglove_bridge foxglove_bridge_launch.xml",
       "problemMatcher": []
     },
     {
       "label": "test ouster",
       "type": "process",
-      "command": "/home/lawskiy/roaf3d_ws/scripts/test/ouster.sh",
+      "command": "${workspaceFolder}/scripts/test/ouster.sh",
       "problemMatcher": [],
       "options": {"cwd": "${workspaceFolder}"}
     }

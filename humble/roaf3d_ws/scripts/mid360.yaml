@@ -1,8 +1,8 @@
-/ouster/points:
+/livox/lidar:
   reliability: reliable
   history: keep_last
   depth: 5
-/ouster/imu:
+/livox/imu:
   reliability: reliable
   history: keep_last
   depth: 5
