@@ -10,9 +10,9 @@ mkdir docker_things/vscode_data
 
 ```bash
 echo "USERNAME=$USER
-UID=$(id -u)
-GID=$(id -g)
-HOSTNAME=$HOSTNAME
+USER_UID=$(id -u)
+USER_GID=$(id -g)
+USER_HOSTNAME=$HOSTNAME
 SSHDIR=$(readlink -f ~/.ssh)" > <path to workspace>/.env
 ```
 
