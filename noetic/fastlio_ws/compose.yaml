@@ -8,11 +8,15 @@ services:
       dockerfile: Dockerfile
       args:
         - USERNAME
-        - UID
-        - GID
-    image: lawskiy/ros:noetic
-    user: "${UID}:${GID}"
-    hostname: ${HOSTNAME}-docker
+        - USER_UID
+        - USER_GID
+    image: lawskiy/ros2:humble
+    user: "${USERNAME}"
+    hostname: ${USER_HOSTNAME}-docker
+    extra_hosts:
+      - "localhost.localdomain:127.0.0.1"
+      - "localhost:127.0.0.1"
+      - "${USER_HOSTNAME}-docker:127.0.0.1"
     volumes:
       - ./:/home/${USERNAME}/workspace
       - ../docker_things/vscode_data:/home/${USERNAME}/.vscode-server
