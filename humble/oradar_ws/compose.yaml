@@ -10,7 +10,7 @@ services:
         - USERNAME
         - USER_UID
         - USER_GID
-    image: lawskiy/ros2:humble
+    image: lawskiy/ros:humble
     user: "${USERNAME}"
     hostname: ${USER_HOSTNAME}-docker
     extra_hosts:
