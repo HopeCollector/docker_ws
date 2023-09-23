@@ -18,7 +18,8 @@ RUN apt-get install -y \
   iputils-ping \
   git \
   wget \
-  curl
+  curl \
+  ros-noetic-foxglove-bridge
 RUN pip install jupyterlab
 
 USER ${USERNAME}

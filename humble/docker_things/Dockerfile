@@ -14,7 +14,11 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} \
 
 RUN apt-get install -y \
   python3-pip \
-  git
+  git \
+  iputils-ping \
+  wget \
+  curl \
+  ros-humble-foxglove-bridge
 RUN pip install jupyterlab
 
 USER ${USERNAME}
