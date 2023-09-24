@@ -1,7 +1,9 @@
 **/src
 **/build
+**/devel
 **/install
 **/log
+**/logs
+**/data
 **/res
-# docker_things/vscode_data/**
-*data*
+**/*catkin*

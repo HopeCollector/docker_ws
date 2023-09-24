@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  oradar:
+    container_name: oradar
+    env_file: .env
+    extends:
+      file: ../../humble/compose.base.yaml
+      service: humble
+    volumes:
+      - ./:/home/${USERNAME}/workspace:rw
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyUSB1:/dev/ttyUSB1

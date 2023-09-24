@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  noetic:
+    extends:
+      file: ../compose.base.yaml
+      service: nvidia_enable
+    build:
+      dockerfile: Dockerfile
+      args:
+        - USERNAME
+        - USER_UID
+        - USER_GID
+    image: lawskiy/ros:noetic
