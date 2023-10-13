@@ -18,6 +18,8 @@ RUN apt-get install -y \
   iputils-ping \
   wget \
   curl \
+  gdb \
+  gdbserver \
   ros-humble-foxglove-bridge
 RUN pip install jupyterlab
 
