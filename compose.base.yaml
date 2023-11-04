@@ -1,5 +1,23 @@
 version: '3.9'
 services:
+  no_gpu:
+    user: "${USERNAME}"
+    hostname: ${USER_HOSTNAME}-docker
+    extra_hosts:
+      - "localhost.localdomain:127.0.0.1"
+      - "localhost:127.0.0.1"
+      - "${USER_HOSTNAME}-docker:127.0.0.1"
+    volumes:
+      - ${SSHDIR}:/home/${USERNAME}/.ssh
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/dri:/dev/dri
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/snd:/dev/snd
+    environment:
+      - DISPLAY=:0 # 默认显示到主屏幕上
+    network_mode: "bridge"
+    command: tail -f /dev/null # we need this to prevent container exit    
   # 用于给容器提供基于 nvidia 显卡的显示支持
   nvidia_enable:
     user: "${USERNAME}"
@@ -17,7 +35,7 @@ services:
       - /dev/snd:/dev/snd
     runtime: nvidia
     environment:
-      - DISPLAY=:1 # 默认显示到主屏幕上
+      - DISPLAY=:0 # 默认显示到主屏幕上
       - NVIDIA_VISIBLE_DEVICES=all
     network_mode: "bridge"
     command: tail -f /dev/null # we need this to prevent container exit
