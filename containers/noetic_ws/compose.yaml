@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  noetic_test:
+    container_name: noetic_test
+    env_file: .env
+    extends:
+      file: ../../noetic/compose.base.yaml
+      service: noetic
+    network_mode: "host"
+    volumes:
+      - ./:/home/${USERNAME}/workspace
