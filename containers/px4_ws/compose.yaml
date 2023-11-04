@@ -1,11 +1,11 @@
 version: '3.9'
 services:
-  px4_1.13.3:
-    container_name: px4_1.13.3
+  px4_1.14.0:
+    container_name: px4_1.14.0
     env_file: .env
     extends:
-      file: ../../noetic/compose.base.yaml
-      service: noetic
+      file: ../../humble/compose.base.yaml
+      service: humble
     network_mode: "host"
     volumes:
       - ./src/PX4-Autopilot:/home/${USERNAME}/workspace:rw
