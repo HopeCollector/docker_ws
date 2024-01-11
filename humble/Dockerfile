@@ -4,15 +4,12 @@ ARG USER_UID
 ARG USER_GID
 
 # Create the user
-RUN apt-get update && \
+RUN echo 'Acquire::http::Proxy "http://172.17.0.1:7890";' >> /etc/apt/apt.conf && \
+  echo 'Acquire::https::Proxy "http://172.17.0.1:7890";' >> /etc/apt/apt.conf && \
+  export all_proxy=172.17.0.1:7890 && \
+  apt-get update && \
   apt-get upgrade -y && \
-  apt-get install -y sudo
-RUN groupadd --gid ${USER_GID} ${USERNAME} \
-  && useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} \
-  && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
-  && chmod 0440 /etc/sudoers.d/${USERNAME}
-
-RUN apt-get install -y \
+  apt-get install -y sudo \
   python3-pip \
   git \
   iputils-ping \
@@ -20,11 +17,13 @@ RUN apt-get install -y \
   curl \
   gdb \
   gdbserver \
-  ros-humble-foxglove-bridge
-RUN pip install jupyterlab
+  ros-humble-foxglove-bridge &&\
+  groupadd --gid ${USER_GID} ${USERNAME} \
+  && useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} \
+  && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
+  && chmod 0440 /etc/sudoers.d/${USERNAME}
 
 USER ${USERNAME}
-
 COPY --chown=${USERNAME}:${USERNAME} bashrc /home/${USERNAME}/.bashrc
 RUN mkdir /home/${USERNAME}/workspace
 WORKDIR /home/${USERNAME}/workspace

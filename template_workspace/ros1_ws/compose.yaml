@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  ros2_service_name:
+    container_name: service_name
+    env_file: .env
+    extends:
+      file: ../../noetic/compose.base.yaml
+      service: noetic
+    volumes:
+      - ./:/home/${USERNAME}/workspace
+    networks:
+      - ros_bridge_network
+    ports:
+      - 8765
+    privileged: true
+networks:
+  ros_bridge_network:
+    name: ros_bridge_network
+    external: true

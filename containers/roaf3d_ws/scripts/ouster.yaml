@@ -1,8 +1,0 @@
-/ouster/points:
-  reliability: reliable
-  history: keep_last
-  depth: 5
-/ouster/imu:
-  reliability: reliable
-  history: keep_last
-  depth: 5

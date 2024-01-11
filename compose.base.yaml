@@ -16,7 +16,6 @@ services:
       - /dev/snd:/dev/snd
     environment:
       - DISPLAY=:0 # 默认显示到主屏幕上
-    network_mode: "bridge"
     command: tail -f /dev/null # we need this to prevent container exit    
   # 用于给容器提供基于 nvidia 显卡的显示支持
   nvidia_enable:
@@ -37,5 +36,4 @@ services:
     environment:
       - DISPLAY=:0 # 默认显示到主屏幕上
       - NVIDIA_VISIBLE_DEVICES=all
-    network_mode: "bridge"
     command: tail -f /dev/null # we need this to prevent container exit

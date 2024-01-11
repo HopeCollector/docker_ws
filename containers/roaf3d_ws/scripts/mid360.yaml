@@ -1,8 +1,0 @@
-/livox/lidar:
-  reliability: reliable
-  history: keep_last
-  depth: 5
-/livox/imu:
-  reliability: reliable
-  history: keep_last
-  depth: 5
