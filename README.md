@@ -16,12 +16,20 @@
 
 ## 使用方式
 
-使用前需要更新每个开发环境的 `.env` 文件
+1. 首先要创建给容器使用的网络环境
+
+```base
+docker network create ros_bridge_network
+```
+
+2. 更新 `.env` 文件
 
 ```bash
 echo "USERNAME=$USER
 USER_UID=$(id -u)
 USER_GID=$(id -g)
 USER_HOSTNAME=$HOSTNAME
-SSHDIR=$(readlink -f ~/.ssh)" > <path to workspace>/.env
+SSHDIR=$(readlink -f ~/.ssh)
+DOCKER_HOST_IP=$(docker network inspect ros_bridge_network -f \
+ '{{range .IPAM.Config}}{{.Gateway}}{{end}}')" > <path to workspace>/.env
 ```

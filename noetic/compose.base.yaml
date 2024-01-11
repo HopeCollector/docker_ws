@@ -10,4 +10,5 @@ services:
         - USERNAME
         - USER_UID
         - USER_GID
+        - DOCKER_HOST_IP
     image: lawskiy/ros:noetic
