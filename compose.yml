@@ -1,0 +1,47 @@
+version: '3.9'
+services:
+  ros_srv:
+    env_file: .env
+    build:
+      dockerfile: Dockerfile
+      args:
+        - USER
+        - DKR_UID
+        - DKR_GID
+        - DKR_ALL_PROXY
+        - DKR_HTTP_PROXY
+        - DKR_HTTPS_PROXY
+    image: local:ros
+    ports:
+      - 20000-29999:8765
+    user: "${USER}"
+    hostname: "${DKR_NAME}"
+    runtime: nvidia
+    networks:
+      - ros_bridge
+    extra_hosts:
+      - "localhost.localdomain:127.0.0.1"
+      - "localhost:127.0.0.1"
+      - "${DKR_NAME}:127.0.0.1"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/dri:/dev/dri
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/snd:/dev/snd
+    environment:
+      - DISPLAY=${DKR_DISPLAY}
+      - all_proxy=${DKR_ALL_PROXY}
+      - http_proxy=${DKR_HTTP_PROXY}
+      - https_proxy=${DKR_HTTPS_PROXY}
+      - ALL_PROXY=${DKR_ALL_PROXY}
+      - HTTP_PROXY=${DKR_HTTP_PROXY}
+      - HTTPS_PROXY=${DKR_HTTPS_PROXY}
+      - SHELL=bash
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all # for gpu based gui app (rviz gazebo)
+
+networks:
+  ros_bridge:
+    name: ros_bridge
+    external: true
