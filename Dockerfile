@@ -10,15 +10,28 @@ RUN export all_proxy=$DKR_ALL_PROXY && \
     export ALL_PROXY=$DKR_ALL_PROXY && \
     export HTTP_PROXY=$DKR_HTTP_PROXY && \
     export HTTPS_PROXY=$DKR_HTTPS_PROXY
-    # apt update &&\
-    # # apt upgrade -y && \
-    # apt install -y git \
-    # iproute2 \
-    # iputils-ping \
-    # nano \
-    # python3-pip \
-    # x11-apps \
-    # curl
+
+
+RUN while ! apt update; \
+    do echo "apt update has failed... Waiting before next try"; \
+    sleep 1; done
+
+RUN while ! apt upgrade -y; \
+    do echo "apt upgrade has failed... Waiting before next try"; \
+    sleep 1; done
+
+RUN while ! apt install -y \
+    git \
+    iproute2 \
+    iputils-ping \
+    nano \
+    python3-pip \
+    x11-apps \
+    curl \
+    ros-humble-mavros* \
+    ros-humble-foxglove*; \
+    do echo "apt install has failed... Waiting before next try"; \
+    sleep 1; done
 
 
 FROM pkg_setup AS user_setup
