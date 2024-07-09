@@ -40,6 +40,10 @@ ARG USER
 ARG DKR_UID="1000"
 ARG DKR_GID="1000"
 
+RUN if id -u ${DKR_UID} >/dev/null 2>&1; then \
+    userdel -r $(id -u -n ${DKR_UID});\
+    fi
+
 RUN groupadd --gid ${DKR_GID} ${USER} && \
     useradd --uid ${DKR_UID} --gid ${DKR_GID} -m ${USER} && \
     echo ${USER} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USER} && \
