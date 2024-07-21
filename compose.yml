@@ -43,5 +43,5 @@ services:
 
 networks:
   ros_bridge:
-    name: ros_bridge
+    name: ros_bridge_network
     external: true

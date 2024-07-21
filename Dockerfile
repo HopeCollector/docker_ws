@@ -25,6 +25,7 @@ RUN while ! apt install -y \
     iproute2 \
     iputils-ping \
     nano \
+    wget \
     python3-pip \
     x11-apps \
     curl \
@@ -32,7 +33,6 @@ RUN while ! apt install -y \
     ros-humble-foxglove*; \
     do echo "apt install has failed... Waiting before next try"; \
     sleep 1; done
-
 
 FROM pkg_setup AS user_setup
 
@@ -53,3 +53,11 @@ USER ${USER}
 
 RUN git config --global http.proxy $DKR_HTTP_PROXY && \
     git config --global https.proxy $DKR_HTTPS_PROXY
+
+# install miniconda && disable auto activate base
+RUN mkdir -p ~/miniconda3 && \
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh && \
+    bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3 && \
+    rm -rf ~/miniconda3/miniconda.sh && \
+    ~/miniconda3/bin/conda init bash && \
+    echo "auto_activate_base: false" >> ~/.condarc
