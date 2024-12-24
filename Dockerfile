@@ -61,3 +61,10 @@ RUN mkdir -p ~/miniconda3 && \
     rm -rf ~/miniconda3/miniconda.sh && \
     ~/miniconda3/bin/conda init bash && \
     echo "auto_activate_base: false" >> ~/.condarc
+
+# setup colcon tab completion
+RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc
+
+# setup colcon_cd
+RUN echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc && \
+    echo "export _colcon_cd_root=/opt/ros/humble/" >> ~/.bashrc
