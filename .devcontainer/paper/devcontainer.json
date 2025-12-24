@@ -1,0 +1,43 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
+{
+	// 容器在 VS Code 左下角显示的名称，方便区分不同环境
+	"name": "🎑paper",
+
+	// 指定 Docker Compose 文件的路径，支持数组
+	// 路径是相对于当前 devcontainer.json 文件的
+	"dockerComposeFile": [
+		"../../compose.yml"
+	],
+
+	// 指定 VS Code 应该连接到哪个服务（对应 compose.yml 中的 service 名称）
+	"service": "paper",
+
+	// 指定在启动开发容器时，需要一起运行的服务列表
+	"runServices": ["paper"],
+
+	// 指定容器启动后，VS Code 打开的默认工作目录
+	// 这里对应 compose.yml 中挂载的 /ws 目录
+	"workspaceFolder": "/ws",
+
+	// VS Code 相关的自定义配置
+	"customizations": {
+		"vscode": {
+			// 容器创建时自动安装的 VS Code 插件列表
+			"extensions": [
+				"redhat.vscode-yaml",           // YAML 语言支持
+				"ms-python.black-formatter",    // Python Black 格式化工具
+				"ms-toolsai.jupyter",           // Jupyter Notebook 支持
+				"Gruntfuggly.todo-tree",        // TODO 注释管理
+				"ms-python.python",             // Python 语言支持
+				"ms-toolsai.datawrangler",      // 数据清洗工具
+				"James-Yu.latex-workshop",      // LaTeX 编译与预览工具
+				"HopeCollector.zotero-link"     // Zotero 文献管理链接工具
+			],
+			// 容器内的 VS Code 特定设置
+			"settings": {
+				// 可以在这里添加 LaTeX Workshop 的相关配置
+			}
+		}
+	}
+}

@@ -1,0 +1,56 @@
+x-proxy-envs: &default-proxy-envs
+  all_proxy: socks5://${proxy_host}:${proxy_port}
+  ALL_PROXY: socks5://${proxy_host}:${proxy_port}
+  http_proxy: http://${proxy_host}:${proxy_port}
+  HTTP_PROXY: http://${proxy_host}:${proxy_port}
+  https_proxy: http://${proxy_host}:${proxy_port}
+  HTTPS_PROXY: http://${proxy_host}:${proxy_port}
+x-default-args: &default-args
+  <<: *default-proxy-envs
+  UBUNTU_REPO: ${apt_src}
+  TZ: ${timezone}
+  UID: ${uid}
+  GID: ${gid}
+  USERNAME: ${username}
+
+services:
+  roaf3d:
+    build:
+      context: .
+      dockerfile: docker/roaf3d.Dockerfile
+      args:
+        <<: *default-args
+    image: roaf3d:roaf3d
+    environment:
+      <<: *default-proxy-envs
+      NVIDIA_DRIVER_CAPABILITIES: all
+      # X11 图形界面转发配置
+      # ⚠️ 必须在宿主机执行: xhost +local:root 以允许容器访问 X Server
+      DISPLAY: ${x11_display}
+    runtime: nvidia
+    gpus: all # 使用全部 GPU
+    shm_size: 32gb # 共享内存大小, 避免某些程序因内存不足崩溃
+    volumes:
+      - ./proj/roaf3d:/ws # 挂载项目代码
+      - ./share:/ws/share # 挂载共享目录
+      - ./.devcontainer/roaf3d:/ws/.devcontainer # 挂载 DevContainer 配置
+      - /tmp/.X11-unix:/tmp/.X11-unix # 挂载 X11 Socket，用于图形界面显示
+    command: ["sleep", "infinity"]
+
+  # 服务 2: paper 写作/实验环境
+  paper:
+    build:
+      context: .
+      dockerfile: docker/paper.Dockerfile
+      args:
+        <<: *default-args
+    image: roaf3d:paper
+    environment:
+      <<: *default-proxy-envs
+    gpus: all # 使用全部 GPU
+    shm_size: 32gb # 共享内存大小, 避免某些程序因内存不足崩溃
+    volumes:
+      - ./proj/paper:/ws
+      - ./share:/ws/share
+      - ./.devcontainer/paper:/ws/.devcontainer
+    command: ["sleep", "infinity"]

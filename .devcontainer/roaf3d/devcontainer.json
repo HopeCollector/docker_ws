@@ -1,0 +1,68 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
+{
+	// 容器在 VS Code 左下角显示的名称，方便区分不同环境
+	"name": "🗽roaf3d",
+
+	// 指定 Docker Compose 文件的路径，支持数组（可以有多个 compose 文件）
+	// 路径是相对于当前 devcontainer.json 文件的
+	"dockerComposeFile": [
+		"../../compose.yml"
+	],
+
+	// 指定 VS Code 应该连接到哪个服务（对应 compose.yml 中的 service 名称）
+	"service": "roaf3d",
+
+	// 指定在启动开发容器时，需要一起运行的服务列表
+	// 通常包含主服务本身，也可以包含数据库等依赖服务
+	"runServices": ["roaf3d"],
+
+	// 指定容器启动后，VS Code 打开的默认工作目录
+	// 这里对应 compose.yml 中挂载的 /ws 目录
+	"workspaceFolder": "/ws",
+
+	// VS Code 相关的自定义配置
+	"customizations": {
+		"vscode": {
+			// 容器创建时自动安装的 VS Code 插件列表
+			"extensions": [
+				"redhat.vscode-yaml",           // YAML 语言支持
+				"ms-python.black-formatter",    // Python Black 格式化工具
+				"ms-toolsai.jupyter",           // Jupyter Notebook 支持
+				"Gruntfuggly.todo-tree",        // TODO 注释管理
+				"ms-python.python",             // Python 语言支持
+				"ms-toolsai.datawrangler",      // 数据清洗工具
+				"llvm-vs-code-extensions.vscode-clangd", // C/C++ 智能提示 (Clangd)
+				"ms-vscode.cmake-tools",        // CMake 工具
+				"tamasfe.even-better-toml"      // TOML 语言支持
+			],
+			// 容器内的 VS Code 特定设置
+			"settings": {
+				// Clangd 插件的配置参数
+				"clangd.arguments": [
+					// 在后台自动分析文件（基于 compile_commands.json）
+					"--background-index",
+					// 指定 compile_commands.json 文件的目录位置
+					// 通常 CMake 构建会在 build 目录下生成此文件
+					"--compile-commands-dir=build",
+					// 并发解析的任务数量
+					"-j=12",
+					// 启用 clang-tidy 静态分析
+					"--clang-tidy",
+					// 指定 clang-tidy 检查规则
+					"--clang-tidy-checks=performance-*,bugprone-*",
+					// 开启全局补全（会自动补充头文件）
+					"--all-scopes-completion",
+					// 更详细的补全信息
+					"--completion-style=detailed",
+					// 自动插入头文件的风格
+					"--header-insertion=iwyu",
+					// 预编译头文件存储位置
+					"--pch-storage=disk"
+				],
+				// 当配置改变时自动重启 clangd 服务
+  				"clangd.onConfigChanged": "restart"
+			}
+		}
+	}
+}
